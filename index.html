@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Halloween Night</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--bg: #070b10;
+			--bg-deep: #111824;
+			--card: #121a27;
+			--light-card: #1b2637;
+			--line: rgba(255, 255, 255, 0.14);
+			--pumpkin: #ff7a18;
+			--ember: #c95d00;
+			--bone: #f6e9d6;
+			--fog: #c0b2a0;
+			--poison: #6a7f1d;
+			--danger: #ff607d;
+			--success: #7cf29a;
+			--shadow: rgba(0, 0, 0, 0.4);
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			min-height: 100vh;
+			font-family: "Segoe UI", "Noto Sans TC", sans-serif;
+			color: var(--bone);
+			background: radial-gradient(circle at 20% 15%, #151f2d 0%, var(--bg) 44%, #05080d 100%);
+			overflow-x: hidden;
+		}
+
+		body::before,
+		body::after {
+			content: "";
+			position: fixed;
+			inset: 0;
+			pointer-events: none;
+			z-index: -2;
+		}
+
+		body::before {
+			background: radial-gradient(circle at 15% 18%, rgba(255, 122, 24, 0.16), transparent 24%);
+			animation: drift 18s linear infinite;
+		}
+
+		body::after {
+			background: repeating-linear-gradient(90deg, transparent 0, transparent 86px, rgba(255, 255, 255, 0.03) 87px, transparent 88px);
+			z-index: -1;
+		}
+
+		.brand,
+		.hero h1,
+		.section-title,
+		.cta-button {
+			font-family: "Creepster", system-ui;
+			font-weight: 400;
+			font-style: normal;
+		}
+
+		.page-shell {
+			width: min(1160px, calc(100% - 32px));
+			margin: 0 auto;
+			padding: 24px 0 64px;
+		}
+
+		.topbar {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 16px;
+			margin-bottom: 36px;
+		}
+
+		.brand {
+			font-size: clamp(1.75rem, 4vw, 2.8rem);
+			letter-spacing: 0.06em;
+			color: var(--pumpkin);
+			text-shadow: none;
+		}
+
+		.topbar nav {
+			display: flex;
+			gap: 18px;
+			flex-wrap: wrap;
+		}
+
+		.topbar a {
+			color: var(--fog);
+			text-decoration: none;
+			font-size: 0.96rem;
+			opacity: 0.88;
+		}
+
+		.topbar a:hover {
+			color: var(--ember);
+		}
+
+		.hero {
+			display: grid;
+			grid-template-columns: 1.15fr 0.85fr;
+			gap: 28px;
+			align-items: stretch;
+			margin-bottom: 32px;
+		}
+
+		.hero-copy,
+		.hero-visual,
+		.game-card,
+		.ending-card,
+		.tip-bar {
+			border: 1px solid var(--line);
+			background: var(--card);
+			box-shadow: 0 22px 45px var(--shadow);
+			backdrop-filter: blur(10px);
+			border-radius: 26px;
+			padding: 28px;
+		}
+
+		.hero-copy {
+			border-radius: 28px;
+			padding: 42px;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.hero-copy::before {
+			content: "";
+			position: absolute;
+			inset: auto -80px -80px auto;
+			width: 220px;
+			height: 220px;
+			background: radial-gradient(circle, rgba(255, 179, 71, 0.22), transparent 65%);
+		}
+
+		.eyebrow {
+			display: inline-flex;
+			align-items: center;
+			gap: 10px;
+			padding: 8px 14px;
+			border-radius: 999px;
+			background: rgba(255, 255, 255, 0.06);
+			color: var(--ember);
+			font-size: 0.9rem;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+		}
+
+		.hero h1 {
+			margin: 18px 0 12px;
+			font-size: clamp(3.2rem, 9vw, 6.2rem);
+			line-height: 0.95;
+			color: var(--pumpkin);
+			text-shadow: 0 0 28px rgba(255, 122, 24, 0.38);
+		}
+
+		.hero p {
+			max-width: 56ch;
+			margin: 0 0 28px;
+			color: rgba(255, 244, 223, 0.84);
+			font-size: 1.04rem;
+			line-height: 1.8;
+		}
+
+		.hero-actions {
+			display: flex;
+			gap: 14px;
+			flex-wrap: wrap;
+		}
+
+		.cta-button,
+		.ghost-button,
+		.game-button,
+		.puzzle-button,
+		.restart-button {
+			border-radius: 999px;
+			padding: 12px 20px;
+			border: 0;
+			cursor: pointer;
+			text-decoration: none;
+			transition: transform 0.2s ease, box-shadow 0.2s ease;
+		}
+
+		.cta-button,
+		.game-button,
+		.puzzle-button,
+		.restart-button {
+			color: #2a1200;
+			background: linear-gradient(135deg, var(--ember), var(--pumpkin));
+			box-shadow: 0 16px 30px rgba(255, 122, 24, 0.28);
+			font-weight: 700;
+		}
+
+		.ghost-button {
+			color: var(--bone);
+			border: 1px solid rgba(255, 255, 255, 0.16);
+			background: rgba(255, 255, 255, 0.04);
+		}
+
+		.cta-button:hover,
+		.ghost-button:hover,
+		.game-button:hover,
+		.puzzle-button:hover,
+		.restart-button:hover {
+			transform: translateY(-2px);
+		}
+
+		.hero-visual {
+			padding: 14px;
+			overflow: hidden;
+			display: grid;
+			place-items: center;
+		}
+
+		.hero-visual img {
+			width: 100%;
+			height: 100%;
+			max-height: 520px;
+			object-fit: cover;
+			border-radius: 20px;
+		}
+
+		.games-section,
+		.ending-section {
+			margin-top: 28px;
+		}
+
+		.game-tag,
+		.ending-tag,
+		.tip-tag {
+			display: inline-block;
+			margin-bottom: 12px;
+			color: var(--poison);
+			font-size: 0.9rem;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+		}
+
+		.game-card h3,
+		.ending-card h3 {
+			margin: 0 0 12px;
+			font-size: 1.3rem;
+			color: #2a1200;
+		}
+
+		.tip-bar h3 {
+			margin: 0 0 12px;
+			font-size: 1.3rem;
+			color: var(--bone);
+		}
+
+		.game-card p,
+		.ending-card p {
+			margin: 0;
+			color: rgba(42, 18, 0, 0.82);
+			line-height: 1.85;
+		}
+
+		.tip-bar p {
+			margin: 0;
+			color: rgba(246, 233, 214, 0.82);
+			line-height: 1.85;
+		}
+
+		.games-layout {
+			display: grid;
+			grid-template-columns: 1.1fr 0.9fr;
+			gap: 18px;
+		}
+
+		.games-right {
+			display: grid;
+			gap: 18px;
+		}
+
+		.game-card {
+			position: relative;
+			overflow: hidden;
+			min-height: 220px;
+			background: #ffffff;
+			color: #2a1200;
+		}
+
+		.game-card h3,
+		.game-card p,
+		.game-status,
+		.arena-help,
+		.hint-box,
+		.tip-note {
+			color: #2a1200;
+		}
+
+		.game-tag {
+			color: #7a4a00;
+		}
+
+		.game-card.is-complete {
+			border-color: rgba(124, 242, 154, 0.45);
+			box-shadow: 0 22px 45px rgba(8, 44, 21, 0.36);
+		}
+
+		.game-card.is-failed {
+			border-color: rgba(255, 96, 125, 0.4);
+		}
+
+		.game-toolbar {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+			flex-wrap: wrap;
+			margin: 16px 0 14px;
+		}
+
+		.game-status {
+			font-size: 0.95rem;
+			color: #4b2600;
+		}
+
+		.game-status strong {
+			color: #c46400;
+		}
+
+		.pumpkin-playfield {
+			position: relative;
+			height: 300px;
+			border-radius: 22px;
+			border: 1px solid rgba(0, 0, 0, 0.08);
+			overflow: hidden;
+			background: #ffffff;
+		}
+
+		.hidden-pumpkin {
+			position: absolute;
+			width: 70px;
+			height: 70px;
+			border: 0;
+			cursor: pointer;
+			background: url("圖片/星星南瓜.png") center/cover no-repeat;
+			transition: transform 0.2s ease, opacity 0.2s ease;
+		}
+
+		.hidden-pumpkin:hover {
+			transform: scale(1.06);
+		}
+
+		.hidden-pumpkin.is-found {
+			opacity: 0;
+			pointer-events: none;
+			transform: scale(0.7);
+		}
+
+		.pumpkin-decoy {
+			position: absolute;
+			width: 58px;
+			height: 58px;
+			border: 0;
+			cursor: pointer;
+			background: url("圖片/南瓜.png") center/cover no-repeat;
+			opacity: 0.92;
+		}
+
+		.ghost-arena {
+			position: relative;
+			height: 300px;
+			border-radius: 22px;
+			border: 1px solid rgba(0, 0, 0, 0.08);
+			overflow: hidden;
+			background: #ffffff;
+		}
+
+		.runner {
+			position: absolute;
+			width: 44px;
+			height: 44px;
+			left: 30px;
+			top: 128px;
+			background: url("圖片/主角.png") center/cover no-repeat;
+			border-radius: 50%;
+			border: 2px solid rgba(255, 244, 223, 0.65);
+		}
+
+		.ghost {
+			position: absolute;
+			width: 46px;
+			height: 46px;
+			background: url("圖片/幽靈.png") center/cover no-repeat;
+		}
+
+		.ghost-mobile-controls {
+			display: none;
+			margin-top: 12px;
+		}
+
+		.ghost-mobile-grid {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 10px;
+			max-width: 240px;
+		}
+
+		.ghost-mobile-btn {
+			height: 44px;
+			border-radius: 12px;
+			border: 1px solid rgba(0, 0, 0, 0.14);
+			background: #fff7ea;
+			color: #2a1200;
+			font-size: 1.1rem;
+			font-weight: 700;
+			touch-action: none;
+		}
+
+		.ghost-mobile-btn[data-key="ArrowUp"] {
+			grid-column: 2;
+		}
+
+		.ghost-mobile-btn[data-key="ArrowLeft"] {
+			grid-column: 1;
+		}
+
+		.ghost-mobile-btn[data-key="ArrowDown"] {
+			grid-column: 2;
+		}
+
+		.ghost-mobile-btn[data-key="ArrowRight"] {
+			grid-column: 3;
+		}
+
+		.ghost-mobile-btn.is-active {
+			background: #ffd28a;
+		}
+
+		.arena-help {
+			margin-top: 12px;
+			font-size: 0.92rem;
+			color: rgba(42, 18, 0, 0.72);
+		}
+
+		.puzzle-wall {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 12px;
+			margin: 18px 0;
+		}
+
+		.puzzle-clue {
+			padding: 14px 10px;
+			border-radius: 18px;
+			text-align: center;
+			background: #ffffff;
+			border: 1px solid rgba(0, 0, 0, 0.08);
+		}
+
+		.puzzle-clue span {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 4px;
+			margin-top: 0;
+			min-height: 26px;
+		}
+
+		.puzzle-count-pumpkin {
+			width: 18px;
+			height: 18px;
+			object-fit: contain;
+		}
+
+		.puzzle-form {
+			display: flex;
+			gap: 12px;
+			flex-wrap: wrap;
+			align-items: center;
+		}
+
+		.puzzle-input {
+			min-width: 180px;
+			padding: 12px 16px;
+			border-radius: 999px;
+			border: 1px solid rgba(0, 0, 0, 0.12);
+			background: #ffffff;
+			color: #2a1200;
+			outline: none;
+		}
+
+		.puzzle-input::placeholder {
+			color: rgba(42, 18, 0, 0.45);
+		}
+
+		.hint-box,
+		.tip-note {
+			margin-top: 14px;
+			padding: 14px 16px;
+			border-radius: 18px;
+			background: #ffffff;
+			border: 1px solid rgba(0, 0, 0, 0.08);
+			color: #2a1200;
+		}
+
+		.hint-box strong,
+		.tip-note strong {
+			color: #c46400;
+		}
+
+		.ending-card {
+			background: #ffffff;
+			border: 1px solid rgba(0, 0, 0, 0.08);
+			border-radius: 26px;
+			padding: 28px;
+			width: min(1100px, calc(100% - 24px));
+			color: #2a1200;
+		}
+
+		.ending-section {
+			position: fixed;
+			inset: 0;
+			z-index: 70;
+			display: grid;
+			align-content: center;
+			justify-items: center;
+			gap: 18px;
+			padding: 24px;
+			background: rgba(7, 11, 16, 0.96);
+			opacity: 0;
+			visibility: hidden;
+			pointer-events: none;
+			transform: translateY(14px) scale(0.99);
+			transition: opacity 0.45s ease, transform 0.45s ease, visibility 0.45s ease;
+		}
+
+		body.show-good-ending .good-ending,
+		body.show-bad-ending .bad-ending {
+			opacity: 1;
+			visibility: visible;
+			pointer-events: auto;
+			transform: translateY(0) scale(1);
+		}
+
+		body.show-good-ending .topbar,
+		body.show-good-ending .hero,
+		body.show-good-ending .games-section,
+		body.show-good-ending .tip-bar,
+		body.show-good-ending .footer-note,
+		body.show-bad-ending .topbar,
+		body.show-bad-ending .hero,
+		body.show-bad-ending .games-section,
+		body.show-bad-ending .tip-bar,
+		body.show-bad-ending .footer-note {
+			opacity: 0;
+			visibility: hidden;
+			pointer-events: none;
+			transform: translateY(-10px);
+		}
+
+		body.show-good-ending .good-ending .section-title,
+		body.show-good-ending .good-ending .ending-card,
+		body.show-good-ending .good-ending .result-banner,
+		body.show-good-ending .good-ending .restart-button,
+		body.show-bad-ending .bad-ending .section-title,
+		body.show-bad-ending .bad-ending .ending-card,
+		body.show-bad-ending .bad-ending .result-banner,
+		body.show-bad-ending .bad-ending .restart-button {
+			animation: endingPop 0.55s ease both;
+		}
+
+		.ending-section .result-banner,
+		.ending-section .restart-button,
+		.ending-section .section-title {
+			width: min(1100px, calc(100% - 24px));
+		}
+
+		.ending-card h3,
+		.ending-card p,
+		.ending-section .result-banner {
+			color: #2a1200;
+		}
+
+		.result-banner {
+			margin-top: 18px;
+			padding: 16px 18px;
+			border-radius: 18px;
+			border: 1px solid rgba(0, 0, 0, 0.08);
+			background: #ffffff;
+			color: #2a1200;
+		}
+
+		.result-banner.is-good {
+			border-color: #2b7a3f;
+			background: #f2ffe9;
+			color: #1d4128;
+			font-weight: 700;
+		}
+
+		.result-banner.is-bad {
+			border-color: rgba(255, 96, 125, 0.7);
+			background: #ffdce3;
+		}
+
+		.fx-layer {
+			position: fixed;
+			inset: 0;
+			pointer-events: none;
+			z-index: 40;
+			overflow: hidden;
+		}
+
+		.fx-layer.good::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background: radial-gradient(circle at center, rgba(124, 242, 154, 0.28), transparent 60%);
+			animation: goodPulse 0.9s ease-out;
+		}
+
+		.fx-layer.bad::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background: rgba(255, 96, 125, 0.2);
+			animation: badFlash 0.6s ease-out;
+		}
+
+		.fx-star {
+			position: absolute;
+			font-size: 1.2rem;
+			opacity: 0;
+			animation: starBurst 1s ease-out forwards;
+		}
+
+		body.shake {
+			animation: screenShake 0.45s ease-in-out;
+		}
+
+		.app-shell {
+			position: relative;
+			min-height: 100vh;
+		}
+
+		.screen {
+			min-height: 100vh;
+			transition: opacity 0.45s ease, transform 0.45s ease, visibility 0.45s ease;
+		}
+
+		.screen.is-hidden {
+			opacity: 0;
+			transform: translateY(-12px);
+			visibility: hidden;
+			pointer-events: none;
+			position: absolute;
+			inset: 0;
+		}
+
+		.ending-screen {
+			display: grid;
+			align-content: center;
+			min-height: 100vh;
+			padding: 24px 0 64px;
+		}
+
+		.end-art {
+			width: 100%;
+			max-width: 360px;
+			margin: 0 auto 18px;
+			display: block;
+			border-radius: 24px;
+		}
+
+		.tip-bar {
+			margin-top: 28px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 18px;
+		}
+
+		.tip-copy {
+			max-width: 780px;
+		}
+
+		.badge-shelf {
+			display: flex;
+			gap: 12px;
+			margin-top: 16px;
+			flex-wrap: wrap;
+		}
+
+		.badge {
+			min-width: 120px;
+			padding: 12px 14px;
+			border-radius: 18px;
+			background: #ffffff;
+			border: 1px solid rgba(0, 0, 0, 0.08);
+			color: rgba(42, 18, 0, 0.72);
+		}
+
+		.badge.is-earned {
+			border-color: rgba(124, 242, 154, 0.4);
+			background: rgba(124, 242, 154, 0.09);
+			color: var(--bone);
+		}
+
+		.section-title {
+			margin: 0 0 20px;
+			color: var(--ember);
+			font-size: clamp(2rem, 5vw, 3.3rem);
+			letter-spacing: 0.05em;
+		}
+
+		.footer-note {
+			margin-top: 32px;
+			text-align: center;
+			color: rgba(255, 244, 223, 0.54);
+			font-size: 0.92rem;
+		}
+
+		@keyframes drift {
+			0% {
+				transform: translate3d(0, 0, 0);
+			}
+			50% {
+				transform: translate3d(-12px, 10px, 0);
+			}
+			100% {
+				transform: translate3d(0, 0, 0);
+			}
+		}
+
+		@keyframes starBurst {
+			0% {
+				opacity: 0;
+				transform: translate(0, 0) scale(0.6);
+			}
+			20% {
+				opacity: 1;
+			}
+			100% {
+				opacity: 0;
+				transform: translate(var(--dx), var(--dy)) scale(1.45);
+			}
+		}
+
+		@keyframes goodPulse {
+			0% {
+				opacity: 0;
+			}
+			40% {
+				opacity: 1;
+			}
+			100% {
+				opacity: 0;
+			}
+		}
+
+		@keyframes badFlash {
+			0% {
+				opacity: 0;
+			}
+			30% {
+				opacity: 1;
+			}
+			100% {
+				opacity: 0;
+			}
+		}
+
+		@keyframes screenShake {
+			0%,
+			100% {
+				transform: translateX(0);
+			}
+			20% {
+				transform: translateX(-8px);
+			}
+			40% {
+				transform: translateX(8px);
+			}
+			60% {
+				transform: translateX(-6px);
+			}
+			80% {
+				transform: translateX(6px);
+			}
+		}
+
+		@keyframes endingPop {
+			from {
+				opacity: 0;
+				transform: translateY(18px) scale(0.96);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0) scale(1);
+			}
+		}
+
+		@media (max-width: 920px) {
+			.hero,
+			.games-layout {
+				grid-template-columns: 1fr;
+			}
+
+			.hero-copy,
+			.hero-visual,
+			.game-card,
+			.ending-card,
+			.tip-bar {
+				padding: 24px;
+			}
+
+			.tip-bar {
+				align-items: flex-start;
+				flex-direction: column;
+			}
+
+			.ending-screen {
+				padding-top: 24px;
+			}
+
+			.ending-section .result-banner,
+			.ending-section .restart-button,
+			.ending-section .section-title,
+			.ending-card {
+				width: min(100%, 1100px);
+			}
+
+			.ghost-mobile-controls {
+				display: block;
+			}
+		}
+
+		@media (max-width: 640px) {
+			.page-shell {
+				width: min(100% - 20px, 1160px);
+				padding-top: 18px;
+			}
+
+			.topbar {
+				flex-direction: column;
+				align-items: flex-start;
+				margin-bottom: 24px;
+			}
+
+			.hero h1 {
+				font-size: 3.35rem;
+			}
+
+			.hero-actions {
+				flex-direction: column;
+			}
+
+			.cta-button,
+			.ghost-button,
+			.game-button,
+			.puzzle-button,
+			.restart-button,
+			.puzzle-input {
+				width: 100%;
+				text-align: center;
+			}
+
+			.puzzle-wall {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="page-shell">
+		<header class="topbar">
+			<div class="brand">Halloween Night</div>
+			<nav>
+				<a href="#games">開始遊戲</a>
+				<a href="#games">小遊戲</a>
+			</nav>
+		</header>
+
+		<main>
+			<section class="hero">
+				<div class="hero-copy">
+					<div class="eyebrow">10.31 午夜開門</div>
+					<h1>🎃 萬聖夜鬼屋探險<br>開啟你的糖果冒險 👻</h1>
+					<p>收集3顆魔法南瓜，解鎖隱藏結局。</p>
+					<div class="hero-actions">
+						<a class="cta-button" href="#games">開始探險</a>
+						<a class="ghost-button" href="#games">查看挑戰</a>
+					</div>
+				</div>
+				<div class="hero-visual" aria-hidden="true">
+					<img src="圖片/海報.png" alt="萬聖節海報">
+				</div>
+			</section>
+
+			<section class="games-section" id="games">
+				<h2 class="section-title">Mini Games</h2>
+				<div class="games-layout">
+					<article class="game-card" id="pumpkin-game-card">
+						<span class="game-tag">🔍 找南瓜挑戰</span>
+						<h3>5秒內找出 3 個星星南瓜</h3>
+						<p>每次開始挑戰都會重新隨機分布。</p>
+						<div class="game-toolbar">
+							<button class="game-button" id="pumpkin-start" type="button">開始挑戰</button>
+							<div class="game-status" id="pumpkin-status"><strong>狀態：</strong>尚未開始</div>
+						</div>
+						<div class="pumpkin-playfield" id="pumpkin-playfield" aria-label="找南瓜遊戲區">
+							<button class="hidden-pumpkin" type="button" data-pumpkin="1" aria-label="星星南瓜1"></button>
+							<button class="hidden-pumpkin" type="button" data-pumpkin="2" aria-label="星星南瓜2"></button>
+							<button class="hidden-pumpkin" type="button" data-pumpkin="3" aria-label="星星南瓜3"></button>
+							<button class="pumpkin-decoy" type="button" data-decoy="1" aria-label="普通南瓜1"></button>
+							<button class="pumpkin-decoy" type="button" data-decoy="2" aria-label="普通南瓜2"></button>
+							<button class="pumpkin-decoy" type="button" data-decoy="3" aria-label="普通南瓜3"></button>
+						</div>
+						<div class="hint-box"><strong>提示：</strong>看清楚南瓜圖案喔!</div>
+					</article>
+
+					<div class="games-right">
+						<article class="game-card" id="ghost-game-card">
+							<span class="game-tag">👻 幽靈快跑</span>
+							<h3>避開四面八方飄來的幽靈</h3>
+							<p>用方向鍵控制角色，避開幽靈，堅持10秒即可過關。</p>
+							<div class="game-toolbar">
+								<button class="game-button" id="ghost-start" type="button">開始快跑</button>
+								<div class="game-status" id="ghost-status"><strong>狀態：</strong>尚未開始</div>
+							</div>
+							<div class="ghost-arena" id="ghost-arena" tabindex="0" aria-label="幽靈躲避遊戲區">
+								<div class="runner" id="runner"></div>
+							</div>
+							<div class="ghost-mobile-controls" aria-label="手機方向控制">
+								<div class="ghost-mobile-grid">
+									<button class="ghost-mobile-btn" type="button" data-key="ArrowUp" aria-label="向上">↑</button>
+									<button class="ghost-mobile-btn" type="button" data-key="ArrowLeft" aria-label="向左">←</button>
+									<button class="ghost-mobile-btn" type="button" data-key="ArrowDown" aria-label="向下">↓</button>
+									<button class="ghost-mobile-btn" type="button" data-key="ArrowRight" aria-label="向右">→</button>
+								</div>
+							</div>
+							<div class="tip-note"><strong>操作：</strong>方向鍵或 WASD。</div>
+						</article>
+
+						<article class="game-card" id="puzzle-game-card">
+							<span class="game-tag">🔐 密室密碼鎖</span>
+							<h3>看每格有幾顆南瓜，輸入 3 位數密碼</h3>
+							<p>每次重新開始都會隨機產生新的密碼。</p>
+							<div class="puzzle-wall" aria-label="密碼提示牆">
+								<div class="puzzle-clue"><span id="puzzle-clue-1" aria-label="第 1 格南瓜數"><img class="puzzle-count-pumpkin" src="圖片/南瓜.png" alt="" aria-hidden="true"></span></div>
+								<div class="puzzle-clue"><span id="puzzle-clue-2" aria-label="第 2 格南瓜數"><img class="puzzle-count-pumpkin" src="圖片/南瓜.png" alt="" aria-hidden="true"></span></div>
+								<div class="puzzle-clue"><span id="puzzle-clue-3" aria-label="第 3 格南瓜數"><img class="puzzle-count-pumpkin" src="圖片/南瓜.png" alt="" aria-hidden="true"></span></div>
+							</div>
+							<form class="puzzle-form" id="puzzle-form">
+								<input class="puzzle-input" id="puzzle-input" type="text" inputmode="numeric" maxlength="3" placeholder="輸入 3 位密碼">
+								<button class="puzzle-button" type="submit">解鎖</button>
+								<div class="game-status" id="puzzle-status"><strong>狀態：</strong>等待輸入</div>
+							</form>
+							<div class="hint-box"><strong>提示：</strong>不要猜，先數清楚每格有幾顆南瓜再輸入。</div>
+						</article>
+					</div>
+				</div>
+			</section>
+
+			<section class="ending-section good-ending" id="good-ending">
+				<h2 class="section-title">Good Ending</h2>
+				<article class="ending-card" id="good-ending-card">
+					<span class="ending-tag">🎉 好結局</span>
+					<p>你成功拿回了所有糖果！小鎮的萬聖夜重新熱鬧起來，你成了大家的英雄。</p>
+				</article>
+				<div class="result-banner is-good" id="good-result-banner">🎉 你成功拿回所有糖果，三枚徽章已集齊。</div>
+				<button class="restart-button ending-restart" type="button">重新開始</button>
+			</section>
+
+			<section class="ending-section bad-ending" id="bad-ending">
+				<h2 class="section-title">Bad Ending</h2>
+				<article class="ending-card" id="bad-ending-card">
+					<span class="ending-tag">😱 壞結局</span>
+					<p id="bad-ending-detail">糖果被幽靈拿走了，小鎮的萬聖夜陷入黑暗。點擊「重新開始」再來一次。</p>
+				</article>
+				<div class="result-banner is-bad" id="bad-result-banner">😱 糖果被幽靈拿走了，小鎮的萬聖夜陷入黑暗。</div>
+				<button class="restart-button ending-restart" type="button">重新開始</button>
+			</section>
+
+			<section class="tip-bar">
+				<div class="tip-copy">
+					<span class="tip-tag">💡 底部提示區</span>
+					<h3>每一顆南瓜徽章都很重要</h3>
+					<p>每完成一個遊戲，就能獲得一顆南瓜徽章，集齊3顆就能解鎖專屬壁紙。</p>
+					<div class="badge-shelf" id="badge-shelf">
+						<div class="badge" data-badge="pumpkin">南瓜徽章</div>
+						<div class="badge" data-badge="ghost">幽靈徽章</div>
+						<div class="badge" data-badge="puzzle">密碼徽章</div>
+					</div>
+				</div>
+				<a class="ghost-button" href="#badge-shelf">查看徽章</a>
+			</section>
+		</main>
+
+	</div>
+	<div class="fx-layer" id="fx-layer" aria-hidden="true"></div>
+
+	<script>
+		const state = {
+			pumpkinComplete: false,
+			ghostComplete: false,
+			puzzleComplete: false,
+			failed: false,
+			finished: false
+		};
+
+		const pumpkinStart = document.getElementById("pumpkin-start");
+		const pumpkinStatus = document.getElementById("pumpkin-status");
+		const pumpkinCard = document.getElementById("pumpkin-game-card");
+		const pumpkinPlayfield = document.getElementById("pumpkin-playfield");
+		const pumpkinButtons = Array.from(document.querySelectorAll(".hidden-pumpkin"));
+		const pumpkinDecoys = Array.from(document.querySelectorAll(".pumpkin-decoy"));
+
+		const ghostStart = document.getElementById("ghost-start");
+		const ghostStatus = document.getElementById("ghost-status");
+		const ghostArena = document.getElementById("ghost-arena");
+		const ghostCard = document.getElementById("ghost-game-card");
+		const runner = document.getElementById("runner");
+		const ghostMobileButtons = Array.from(document.querySelectorAll(".ghost-mobile-btn"));
+
+		const puzzleForm = document.getElementById("puzzle-form");
+		const puzzleInput = document.getElementById("puzzle-input");
+		const puzzleStatus = document.getElementById("puzzle-status");
+		const puzzleCard = document.getElementById("puzzle-game-card");
+		const puzzleClueEls = [
+			document.getElementById("puzzle-clue-1"),
+			document.getElementById("puzzle-clue-2"),
+			document.getElementById("puzzle-clue-3")
+		];
+
+		const goodEndingCard = document.getElementById("good-ending-card");
+		const badEndingCard = document.getElementById("bad-ending-card");
+		const badEndingDetail = document.getElementById("bad-ending-detail");
+		const goodResultBanner = document.getElementById("good-result-banner");
+		const badResultBanner = document.getElementById("bad-result-banner");
+		const defaultGoodResultText = "🎉 你成功拿回所有糖果，三枚徽章已集齊。";
+		const defaultBadResultText = "😱 糖果被幽靈拿走了，小鎮的萬聖夜陷入黑暗。";
+		const defaultBadEndingDetail = "糖果被幽靈拿走了，小鎮的萬聖夜陷入黑暗。點擊「重新開始」再來一次。";
+
+		const restartButtons = Array.from(document.querySelectorAll(".ending-restart"));
+		const fxLayer = document.getElementById("fx-layer");
+
+		const badgeMap = {
+			pumpkin: document.querySelector('[data-badge="pumpkin"]'),
+			ghost: document.querySelector('[data-badge="ghost"]'),
+			puzzle: document.querySelector('[data-badge="puzzle"]')
+		};
+
+		const keys = new Set();
+		const runnerState = { x: 30, y: 128, size: 44, speed: 3.4 };
+
+		let pumpkinTimer = null;
+		let pumpkinFound = 0;
+		let pumpkinTimeLeft = 5;
+		let pumpkinActive = false;
+
+		let ghostAnimation = null;
+		let ghostSpawns = [];
+		let ghostActive = false;
+		let ghostStartTime = 0;
+		const ghostDuration = 10000;
+
+		let puzzleCode = "";
+
+		function updateBadge(key, earned) {
+			badgeMap[key].classList.toggle("is-earned", earned);
+		}
+
+		function setCardState(card, mode) {
+			card.classList.remove("is-complete", "is-failed");
+			if (mode) {
+				card.classList.add(mode);
+			}
+		}
+
+		function setStatus(el, text) {
+			el.innerHTML = `<strong>狀態：</strong>${text}`;
+		}
+
+		function randomBetween(min, max) {
+			return min + Math.random() * (max - min);
+		}
+
+		function randomizePumpkinPositions() {
+			const width = pumpkinPlayfield.clientWidth;
+			const height = pumpkinPlayfield.clientHeight;
+			const size = 70;
+			const positions = [];
+			const types = [
+				"圖片/星星南瓜.png",
+				"圖片/星星南瓜.png",
+				"圖片/星星南瓜.png"
+			];
+			const decoyTypes = [
+				"圖片/南瓜.png",
+				"圖片/南瓜.png",
+				"圖片/南瓜.png"
+			];
+
+			pumpkinButtons.forEach((button) => {
+				let x = 0;
+				let y = 0;
+				let safe = false;
+				for (let i = 0; i < 50 && !safe; i += 1) {
+					x = randomBetween(12, Math.max(12, width - size - 12));
+					y = randomBetween(12, Math.max(12, height - size - 12));
+					safe = positions.every((pos) => Math.hypot(pos.x - x, pos.y - y) > 86);
+				}
+				positions.push({ x, y });
+				button.style.left = `${x}px`;
+				button.style.top = `${y}px`;
+				button.style.backgroundImage = `url("${types.shift()}")`;
+				button.classList.remove("is-found");
+			});
+
+			pumpkinDecoys.forEach((decoy, index) => {
+				let x = 0;
+				let y = 0;
+				let safe = false;
+				for (let i = 0; i < 50 && !safe; i += 1) {
+					x = randomBetween(12, Math.max(12, width - 58 - 12));
+					y = randomBetween(12, Math.max(12, height - 58 - 12));
+					safe = positions.every((pos) => Math.hypot(pos.x - x, pos.y - y) > 78);
+				}
+				positions.push({ x, y });
+				decoy.style.left = `${x}px`;
+				decoy.style.top = `${y}px`;
+				decoy.style.backgroundImage = `url("${decoyTypes[index % decoyTypes.length]}")`;
+			});
+		}
+
+		function startPumpkinGame() {
+			if (state.finished) {
+				return;
+			}
+			clearInterval(pumpkinTimer);
+			pumpkinActive = true;
+			randomizePumpkinPositions();
+			pumpkinFound = 0;
+			pumpkinTimeLeft = 5;
+			state.pumpkinComplete = false;
+			setCardState(pumpkinCard, "");
+			updateBadge("pumpkin", false);
+			setStatus(pumpkinStatus, "剩餘 5 秒，已找到 0 / 3");
+
+			pumpkinTimer = setInterval(() => {
+				pumpkinTimeLeft -= 1;
+				setStatus(pumpkinStatus, `剩餘 ${pumpkinTimeLeft} 秒，已找到 ${pumpkinFound} / 3`);
+				if (pumpkinTimeLeft <= 0) {
+					clearInterval(pumpkinTimer);
+					pumpkinActive = false;
+					if (!state.pumpkinComplete) {
+						setStatus(pumpkinStatus, "時間到，南瓜逃走了");
+						setCardState(pumpkinCard, "is-failed");
+						triggerBadEnding("你在南瓜園迷路太久，第一顆魔法南瓜沒有拿到。");
+					}
+				}
+			}, 1000);
+		}
+
+		pumpkinButtons.forEach((button) => {
+			button.addEventListener("click", () => {
+				if (!pumpkinActive || button.classList.contains("is-found") || state.finished) {
+					return;
+				}
+				button.classList.add("is-found");
+				pumpkinFound += 1;
+				setStatus(pumpkinStatus, `剩餘 ${pumpkinTimeLeft} 秒，已找到 ${pumpkinFound} / 3`);
+				if (pumpkinFound >= 3) {
+					clearInterval(pumpkinTimer);
+					pumpkinActive = false;
+					state.pumpkinComplete = true;
+					setCardState(pumpkinCard, "is-complete");
+					updateBadge("pumpkin", true);
+					setStatus(pumpkinStatus, "成功收集 3 顆南瓜");
+					checkForGoodEnding();
+				}
+			});
+		});
+
+		pumpkinDecoys.forEach((decoy) => {
+			decoy.addEventListener("click", () => {
+				if (!pumpkinActive || state.finished || state.pumpkinComplete) {
+					return;
+				}
+				clearInterval(pumpkinTimer);
+				pumpkinActive = false;
+				setStatus(pumpkinStatus, "你點到普通南瓜，挑戰失敗");
+				setCardState(pumpkinCard, "is-failed");
+				triggerBadEnding("你誤拿了普通南瓜，魔法南瓜逃走了。", true);
+			});
+		});
+
+		pumpkinStart.addEventListener("click", startPumpkinGame);
+
+		function randomGhostFromEdge() {
+			const margin = 30;
+			const arenaWidth = ghostArena.clientWidth;
+			const arenaHeight = ghostArena.clientHeight;
+			const side = Math.floor(Math.random() * 4);
+			const speed = randomBetween(1.6, 3.4);
+			const drift = randomBetween(-1.2, 1.2);
+
+			if (side === 0) {
+				return { x: -50, y: randomBetween(0, arenaHeight - margin), vx: speed, vy: drift };
+			}
+			if (side === 1) {
+				return { x: arenaWidth + 10, y: randomBetween(0, arenaHeight - margin), vx: -speed, vy: drift };
+			}
+			if (side === 2) {
+				return { x: randomBetween(0, arenaWidth - margin), y: -50, vx: drift, vy: speed };
+			}
+			return { x: randomBetween(0, arenaWidth - margin), y: arenaHeight + 10, vx: drift, vy: -speed };
+		}
+
+		function createGhost() {
+			const ghost = document.createElement("div");
+			ghost.className = "ghost";
+			ghostArena.appendChild(ghost);
+			return {
+				element: ghost,
+				...randomGhostFromEdge()
+			};
+		}
+
+		function resetGhostArena() {
+			ghostSpawns.forEach((ghost) => ghost.element.remove());
+			ghostSpawns = [];
+			runnerState.x = Math.max(0, (ghostArena.clientWidth - runnerState.size) / 2);
+			runnerState.y = Math.max(0, (ghostArena.clientHeight - runnerState.size) / 2);
+			runner.style.left = `${runnerState.x}px`;
+			runner.style.top = `${runnerState.y}px`;
+		}
+
+		function stopGhostGame() {
+			ghostActive = false;
+			keys.clear();
+			ghostMobileButtons.forEach((button) => button.classList.remove("is-active"));
+			if (ghostAnimation) {
+				cancelAnimationFrame(ghostAnimation);
+				ghostAnimation = null;
+			}
+		}
+
+		function bindGhostMobileControls() {
+			ghostMobileButtons.forEach((button) => {
+				const keyName = button.dataset.key;
+				if (!keyName) {
+					return;
+				}
+
+				const press = (event) => {
+					event.preventDefault();
+					keys.add(keyName);
+					button.classList.add("is-active");
+				};
+
+				const release = (event) => {
+					event.preventDefault();
+					keys.delete(keyName);
+					button.classList.remove("is-active");
+				};
+
+				button.addEventListener("pointerdown", press);
+				button.addEventListener("pointerup", release);
+				button.addEventListener("pointercancel", release);
+				button.addEventListener("pointerleave", release);
+			});
+		}
+
+		function ghostLoop(now) {
+			if (!ghostActive || state.finished) {
+				return;
+			}
+
+			const arenaWidth = ghostArena.clientWidth - runnerState.size;
+			const arenaHeight = ghostArena.clientHeight - runnerState.size;
+
+			if (keys.has("ArrowUp") || keys.has("w") || keys.has("W")) {
+				runnerState.y -= runnerState.speed;
+			}
+			if (keys.has("ArrowDown") || keys.has("s") || keys.has("S")) {
+				runnerState.y += runnerState.speed;
+			}
+			if (keys.has("ArrowLeft") || keys.has("a") || keys.has("A")) {
+				runnerState.x -= runnerState.speed;
+			}
+			if (keys.has("ArrowRight") || keys.has("d") || keys.has("D")) {
+				runnerState.x += runnerState.speed;
+			}
+
+			runnerState.x = Math.max(0, Math.min(arenaWidth, runnerState.x));
+			runnerState.y = Math.max(0, Math.min(arenaHeight, runnerState.y));
+			runner.style.left = `${runnerState.x}px`;
+			runner.style.top = `${runnerState.y}px`;
+
+			ghostSpawns.forEach((ghost) => {
+				ghost.x += ghost.vx;
+				ghost.y += ghost.vy;
+
+				const outOfBounds =
+					ghost.x < -70 ||
+					ghost.x > ghostArena.clientWidth + 30 ||
+					ghost.y < -70 ||
+					ghost.y > ghostArena.clientHeight + 30;
+
+				if (outOfBounds) {
+					Object.assign(ghost, randomGhostFromEdge());
+				}
+
+				ghost.element.style.left = `${ghost.x}px`;
+				ghost.element.style.top = `${ghost.y}px`;
+
+				const collideX = Math.abs(ghost.x - runnerState.x) < 30;
+				const collideY = Math.abs(ghost.y - runnerState.y) < 30;
+				if (collideX && collideY) {
+					setStatus(ghostStatus, "被幽靈抓住了");
+					setCardState(ghostCard, "is-failed");
+					stopGhostGame();
+					triggerBadEnding("你在幽靈走廊被抓住，糖果被搶走了。");
+				}
+			});
+
+			if (!ghostActive) {
+				return;
+			}
+
+			const elapsed = now - ghostStartTime;
+			const remain = Math.max(0, Math.ceil((ghostDuration - elapsed) / 1000));
+			setStatus(ghostStatus, `再撐 ${remain} 秒`);
+
+			if (elapsed >= ghostDuration) {
+				stopGhostGame();
+				state.ghostComplete = true;
+				setCardState(ghostCard, "is-complete");
+				updateBadge("ghost", true);
+				setStatus(ghostStatus, "成功穿越幽靈走廊");
+				checkForGoodEnding();
+				return;
+			}
+
+			ghostAnimation = requestAnimationFrame(ghostLoop);
+		}
+
+		function startGhostGame() {
+			if (state.finished) {
+				return;
+			}
+			keys.clear();
+			ghostMobileButtons.forEach((button) => button.classList.remove("is-active"));
+			state.ghostComplete = false;
+			setCardState(ghostCard, "");
+			updateBadge("ghost", false);
+			resetGhostArena();
+			ghostSpawns = Array.from({ length: 4 }, () => createGhost());
+			ghostStartTime = performance.now();
+			ghostActive = true;
+			ghostArena.focus();
+			setStatus(ghostStatus, "幽靈接近中");
+			ghostAnimation = requestAnimationFrame(ghostLoop);
+		}
+
+		ghostStart.addEventListener("click", startGhostGame);
+
+		document.addEventListener("keydown", (event) => keys.add(event.key));
+		document.addEventListener("keyup", (event) => keys.delete(event.key));
+		bindGhostMobileControls();
+
+		function generatePuzzleCode() {
+			const digits = Array.from({ length: 3 }, () => Math.floor(Math.random() * 7) + 1);
+			puzzleCode = digits.join("");
+			puzzleClueEls.forEach((el, index) => {
+				el.innerHTML = "";
+				for (let i = 0; i < digits[index]; i += 1) {
+					const pumpkinIcon = document.createElement("img");
+					pumpkinIcon.className = "puzzle-count-pumpkin";
+					pumpkinIcon.src = "圖片/南瓜.png";
+					pumpkinIcon.alt = "";
+					pumpkinIcon.setAttribute("aria-hidden", "true");
+					el.appendChild(pumpkinIcon);
+				}
+				el.setAttribute("aria-label", `第 ${index + 1} 格有 ${digits[index]} 顆南瓜`);
+			});
+		}
+
+		puzzleForm.addEventListener("submit", (event) => {
+			event.preventDefault();
+			if (state.finished) {
+				return;
+			}
+			const guess = puzzleInput.value.trim();
+			if (guess === puzzleCode) {
+				state.puzzleComplete = true;
+				setCardState(puzzleCard, "is-complete");
+				updateBadge("puzzle", true);
+				setStatus(puzzleStatus, "密碼正確，門打開了");
+				puzzleInput.disabled = true;
+				checkForGoodEnding();
+			} else {
+				state.puzzleComplete = false;
+				setCardState(puzzleCard, "is-failed");
+				setStatus(puzzleStatus, "密碼錯誤");
+				triggerBadEnding("你輸入了錯誤密碼，密室重新上鎖。", false);
+			}
+		});
+
+		function showEndingScreen(type, messageText) {
+			document.body.classList.remove("show-good-ending", "show-bad-ending");
+			if (type === "good") {
+				document.body.classList.add("show-good-ending");
+				badEndingDetail.textContent = defaultBadEndingDetail;
+				goodResultBanner.textContent = messageText || defaultGoodResultText;
+				badResultBanner.textContent = defaultBadResultText;
+			} else {
+				document.body.classList.add("show-bad-ending");
+				goodResultBanner.textContent = defaultGoodResultText;
+				badResultBanner.textContent = messageText || defaultBadResultText;
+				badEndingDetail.textContent = (messageText || "").replace(/^😱\s*/, "") || defaultBadEndingDetail;
+			}
+			setTimeout(() => {
+				clearFx();
+			}, 1100);
+		}
+
+		function clearFx() {
+			fxLayer.className = "fx-layer";
+			fxLayer.innerHTML = "";
+			document.body.classList.remove("shake");
+		}
+
+		function playResultFx(type) {
+			clearFx();
+			if (type === "good") {
+				fxLayer.classList.add("good");
+				for (let i = 0; i < 18; i += 1) {
+					const star = document.createElement("span");
+					star.className = "fx-star";
+					star.textContent = i % 2 === 0 ? "✨" : "🎃";
+					star.style.left = `${Math.random() * 100}%`;
+					star.style.top = `${Math.random() * 50 + 10}%`;
+					star.style.setProperty("--dx", `${randomBetween(-140, 140)}px`);
+					star.style.setProperty("--dy", `${randomBetween(-120, 160)}px`);
+					star.style.animationDelay = `${Math.random() * 0.18}s`;
+					fxLayer.appendChild(star);
+				}
+			} else {
+				fxLayer.classList.add("bad");
+				document.body.classList.add("shake");
+			}
+			setTimeout(clearFx, 1100);
+		}
+
+		function checkForGoodEnding() {
+			if (state.finished || state.failed) {
+				return;
+			}
+			if (state.pumpkinComplete && state.ghostComplete && state.puzzleComplete) {
+				state.finished = true;
+				playResultFx("good");
+				showEndingScreen("good", "🎉 你成功拿回所有糖果，三枚徽章已集齊。");
+			}
+		}
+
+		function triggerBadEnding(message, lockAll = true) {
+			if (state.finished) {
+				return;
+			}
+			state.failed = true;
+			state.finished = true;
+			pumpkinActive = false;
+			playResultFx("bad");
+			showEndingScreen("bad", `😱 ${message}`);
+
+			if (lockAll) {
+				clearInterval(pumpkinTimer);
+				stopGhostGame();
+			}
+		}
+
+		function resetPageState() {
+			clearInterval(pumpkinTimer);
+			pumpkinActive = false;
+			keys.clear();
+			ghostMobileButtons.forEach((button) => button.classList.remove("is-active"));
+			stopGhostGame();
+			resetGhostArena();
+			generatePuzzleCode();
+			document.body.classList.remove("show-good-ending", "show-bad-ending");
+
+			state.pumpkinComplete = false;
+			state.ghostComplete = false;
+			state.puzzleComplete = false;
+			state.failed = false;
+			state.finished = false;
+
+			pumpkinFound = 0;
+			pumpkinTimeLeft = 5;
+			pumpkinButtons.forEach((button) => button.classList.remove("is-found"));
+			setStatus(pumpkinStatus, "尚未開始");
+			setStatus(ghostStatus, "尚未開始");
+			setStatus(puzzleStatus, "等待輸入");
+
+			puzzleInput.value = "";
+			puzzleInput.disabled = false;
+			setCardState(pumpkinCard, "");
+			setCardState(ghostCard, "");
+			setCardState(puzzleCard, "");
+			updateBadge("pumpkin", false);
+			updateBadge("ghost", false);
+			updateBadge("puzzle", false);
+			badEndingDetail.textContent = defaultBadEndingDetail;
+			goodResultBanner.textContent = defaultGoodResultText;
+			badResultBanner.textContent = defaultBadResultText;
+			clearFx();
+		}
+
+		restartButtons.forEach((button) => {
+			button.addEventListener("click", resetPageState);
+		});
+
+		generatePuzzleCode();
+		randomizePumpkinPositions();
+		resetGhostArena();
+	</script>
+</body>
+</html>
